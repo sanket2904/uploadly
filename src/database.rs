@@ -54,7 +54,7 @@ impl<T> RedisMongo<T> for Collection<T> where T:Serialize {
        
 
         let redis_thread = std::thread::spawn( move ||  {
-            println!("thread started");
+            
             let _red: () =  redis.set_ex( key, strr,7*86400).expect("redis error 42");
         });
         redis_thread.join().expect("thread failed");
@@ -77,11 +77,11 @@ impl<T> RedisMongo<T> for Collection<T> where T:Serialize {
         // if it exists return it
         if !res.is_err() {
             let res: T = serde_json::from_str(&res.unwrap()).unwrap();
-            println!("from redis");
+           
             return Ok(Some(res));
         }
         // if it doesn't exist get it from mongodb and insert it into redis
-        println!("from mongodb");
+        
         let res:Result<Option<T>, mongodb::error::Error> = block_on(self.find_one(query, None));
         match res {
             Ok(Some(value)) => {
