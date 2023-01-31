@@ -51,3 +51,56 @@ pub struct Session {
     pub token: String,
 }
 
+impl PartialEq for Session {
+    fn eq(&self, other: &Self) -> bool {
+        return self._id == other._id && self.account_id == other.account_id && self.token == other.token;
+    }
+}
+
+
+impl Clone for Session {
+    fn clone(&self) -> Self {
+        Session {
+            _id: self._id.clone(),
+            account_id: self.account_id.clone(),
+            created_at: self.created_at.clone(),
+            expire_at: self.expire_at.clone(),
+            active: self.active.clone(),
+            token: self.token.clone(),
+        }
+    }
+}
+
+impl Clone for Account {
+    fn clone(&self) -> Self {
+        Account {
+            _id: self._id.clone(),
+            user_name: self.user_name.clone(),
+            password: self.password.clone(),
+            email: self.email.clone(),
+            first_name: self.first_name.clone(),
+            last_name: self.last_name.clone(),
+            role: self.role.clone(),
+            created: self.created.clone(),
+            updated: self.updated.clone(),
+            active: self.active.clone(),
+            usage: self.usage.clone(),
+            max_usage: self.max_usage.clone(),
+            files: self.files.clone(),
+            session: self.session.clone(),
+        }
+    }
+}
+impl Clone for File {
+    fn clone(&self) -> Self {
+        File {
+            file_name: self.file_name.clone(),
+            file_size: self.file_size.clone(),
+            file_type: self.file_type.clone(),
+            account_id: self.account_id.clone(),
+            file_id: self.file_id.clone(),
+            uploaded_at: self.uploaded_at.clone(),
+            file_link: self.file_link.clone(),
+        }
+    }
+}
