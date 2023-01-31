@@ -259,13 +259,13 @@ async fn main()  -> std::io::Result<()> {
     std::env::set_var("RUST_BACKTRACE", "1");
     env_logger::init();
     
-    let db = MongoDB::new(&std::env::var("MONGO_URI").unwrap()).await.unwrap();
+    let db = MongoDB::new(&std::env::var("MONGO_URI").unwrap()).await.expect("failed to connect to database");
     let db_data = web::Data::new(db);
     HttpServer::new( move || {
         App::new().app_data(db_data.clone())
             .service(create_account).service(login_account).route("/test", web::get().to(test).wrap(SayHi))
     })
-    .bind(("127.0.0.1", 1337))?
+    .bind(("0.0.0.0", 1337))?
     .run()
     .await
 

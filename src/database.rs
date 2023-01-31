@@ -1,11 +1,10 @@
 
 use std::sync::Arc;
 use bson::{ Document};
-use futures::{executor::{block_on, LocalPool}, lock::Mutex};
+use futures::{executor::{block_on}};
 use mongodb::{Client, Collection,options::{ClientOptions, UpdateModifications}};
 use redis::{Commands, Connection};
 use serde::{Serialize, de::DeserializeOwned};
-use tokio::runtime::Runtime;
 use crate::datastructures::{Session,Account,File};
 extern crate redis;
 
