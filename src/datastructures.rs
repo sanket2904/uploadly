@@ -1,3 +1,4 @@
+
 use serde::{Serialize, Deserialize};
 use chrono::DateTime;
 use chrono::serde::ts_seconds;
@@ -25,6 +26,8 @@ pub struct Account {
 }
 
 
+
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct File {
     // fields for the file schema
@@ -32,7 +35,7 @@ pub struct File {
     pub file_size: i64,
     pub file_type: Option<String>,
     pub account_id: String,
-    pub file_id: String,
+    pub file_id: ObjectId,
     #[serde(with = "ts_seconds")]
     pub uploaded_at: DateTime<Utc>,
     pub file_link: Option<String>,
@@ -67,6 +70,31 @@ impl Clone for Session {
             expire_at: self.expire_at.clone(),
             active: self.active.clone(),
             token: self.token.clone(),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Claims {
+    #[serde(with = "ts_seconds")]
+    pub exp:DateTime<Utc>,
+    pub account_id: ObjectId,
+    pub session_id: ObjectId,
+    pub user_name: String,
+}
+
+// impl new for File 
+
+impl File {
+    pub fn new() -> Self {
+        File {
+            file_name: String::new(),
+            file_size: 0,
+            file_type: None,
+            account_id: String::new(),
+            file_id: ObjectId::new(),
+            uploaded_at: Utc::now(),
+            file_link: None,
         }
     }
 }

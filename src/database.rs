@@ -57,10 +57,10 @@ impl<T> RedisMongo<T> for Collection<T> where T:Serialize {
             
             let _red: () =  redis.set_ex( key, strr,7*86400).expect("redis error 42");
         });
-        redis_thread.join().expect("thread failed");
+
             // pooling mongodb
         let _res = block_on(arc_self.insert_one(data, None));
-        
+        redis_thread.join().expect("thread failed");
        
         
         Ok(())
@@ -112,7 +112,7 @@ impl<T> RedisMongo<T> for Collection<T> where T:Serialize {
         
         // delete from redis
         let key = key.to_string();
-        println!("{}", key);
+        
         let mut redis = self.get_redis();
         // creating a multi threaded runtime
         let redis_thead = std::thread::spawn( move ||  {
